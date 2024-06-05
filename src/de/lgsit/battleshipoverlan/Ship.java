@@ -1,3 +1,5 @@
+package de.lgsit.battleshipoverlan;
+
 public class Ship {
     private int lenght;
     private int orientation;

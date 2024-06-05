@@ -1,3 +1,5 @@
+package de.lgsit.battleshipoverlan;
+
 public class Position {
     private boolean occupied;
     private boolean hit;

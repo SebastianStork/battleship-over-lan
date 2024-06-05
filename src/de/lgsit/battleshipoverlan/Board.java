@@ -1,3 +1,5 @@
+package de.lgsit.battleshipoverlan;
+
 public class Board {
     private Position[][] positions;
     private Ship[] ships;
