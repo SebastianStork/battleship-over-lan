@@ -1,3 +1,5 @@
+package de.lgsit.battleshipoverlan;
+
 import java.util.Random;
 
 public class Board {
@@ -89,21 +91,20 @@ public class Board {
         }
     }
     public void setShotAt(int col, int row) {
-        Position pos = Positions[col][row];
+        Position pos = positions[col][row];
         pos.setToHit();
-        if (pos.isOccupied()) {
-            for (Ship ship : ships) {
+
+        if (!pos.isOccupied()) {return;}
+
+        for (Ship ship : ships) {
+            for (int i = 0; i <= ship.getLenght(); i++) {
                 if (ship.getOrientation() == 0) {
-                    for (int i = 0; i < ship.getLenght(); i++) {
-                        if (ship.getCentralPosition() == positions[col][row + i]) {
-                            ship.hit();
-                        }
+                    if (ship.getCentralPosition() == positions[col][row + i]) {
+                        ship.hit();
                     }
                 } else {
-                    for (int i = 0; i < ship.getLenght(); i++) {
-                        if (ship.getCentralPosition() == positions[col + i][row]) {
-                            ship.hit();
-                        }
+                    if (ship.getCentralPosition() == positions[col + i][row]) {
+                        ship.hit();
                     }
                 }
             }
