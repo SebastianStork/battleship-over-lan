@@ -7,6 +7,11 @@ public class Board {
     private Ship[] ships;
 
     public Board(){
+        for(int i = 0; i<=10; i++){
+            for(int j = 0; j <=10; j++){
+                Position[][] positions = new Position[i][j];
+            }
+        }
 
     }
 
@@ -20,75 +25,58 @@ public class Board {
     public void placeShipsRandomly() {
         Random random = new Random();
         int[] shipSizes = {5, 4, 4, 3, 3, 3, 2, 2, 2, 2};
-        ships = new Ship[10];
+        Ship[] generatedShips = new Ship[10];
         int index = 0;
 
         for (int size : shipSizes) {
             boolean placed = false;
-
             while (!placed) {
-                boolean isLegal = true;
                 int row = random.nextInt(10);
                 int col = random.nextInt(10);
                 boolean horizontal = random.nextBoolean();
 
-                if (horizontal) {
-                    if (col + size > 10 || row + size >10) {
-                        isLegal = false;
-                    } else {
-                        for (int i = 0; i < size; i++) {
-                            if (positions[row][col + i].isOccupied()) {
-                                isLegal = false;
-                                break;
-                            }
-                        }
-                        for (int i = 0; i < size && isLegal; i++) {
-                            for (int dr = -1; dr <= 1; dr++) {
-                                for (int dc = -1; dc <= 1; dc++) {
-                                    int newRow = row + dr;
-                                    int newCol = col + i + dc;
-                                    if (newRow >= 0 && newRow < 10 && newCol >= 0 && newCol < 10) {
-                                        if (positions[newRow][newCol].isOccupied()) {
-                                            isLegal = false;
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (!isLegal) break;
-                            }
-                        }
-                    }
-                } else {
-                    if (row + size > 10) {
-                        isLegal = false;
-                    } else {
-
-                        for (int i = 0; i < size && isLegal; i++) {
-                            for (int dr = -1; dr <= 1; dr++) {
-                                for (int dc = -1; dc <= 1; dc++) {
-                                    int newRow = row + i + dr;
-                                    int newCol = col + dc;
-                                    if (newRow >= 0 && newRow < 10 && newCol >= 0 && newCol < 10) {
-                                        if (positions[newRow][newCol].isOccupied()) {
-                                            isLegal = false;
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (!isLegal) break;
-                            }
-                        }
-                    }
-                }
-
-                if (isLegal) {
-                    ships[index] = new Ship(size, horizontal ? 0 : 1, new Position());
-
+                if (canPlaceShip(size, row, col, horizontal)) {
+                    generatedShips[index] = new Ship(size, horizontal ? 0 : 1, new Position());
                     placed = true;
                     index++;
                 }
             }
         }
+
+        placeShips(generatedShips);
+    }
+
+    private boolean canPlaceShip(int size, int row, int col, boolean horizontal) {
+        if (horizontal) {
+            if (col + size > 10) return false;
+            for (int i = 0; i < size; i++) {
+                if (positions[row][col + i].isOccupied()) return false;
+            }
+            return checkSurroundings(row, col, size, horizontal);
+        } else {
+            if (row + size > 10) return false;
+            for (int i = 0; i < size; i++) {
+                if (positions[row + i][col].isOccupied()) return false;
+            }
+            return checkSurroundings(row, col, size, horizontal);
+        }
+    }
+
+    private boolean checkSurroundings(int row, int col, int size, boolean horizontal) {
+        for (int i = 0; i < size; i++) {
+            for (int dr = -1; dr <= 1; dr++) {
+                for (int dc = -1; dc <= 1; dc++) {
+                    int newRow = row + (horizontal ? 0 : i) + dr;
+                    int newCol = col + (horizontal ? i : 0) + dc;
+                    if (newRow >= 0 && newRow < 10 && newCol >= 0 && newCol < 10) {
+                        if (positions[newRow][newCol].isOccupied()) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
     public void setShotAt(int col, int row) {
         Position pos = positions[col][row];
