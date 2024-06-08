@@ -19,12 +19,35 @@ public class Board {
         return positions[col][row];
     }
 
+    private int[] getCoordinatesOf(Position position) {
+        for (int colIndex = 0; colIndex < 10; colIndex++) {
+            for (int rowIndex = 0; rowIndex < 10; rowIndex++) {
+                if (positions[colIndex][rowIndex] == position) {
+                    return new int[]{colIndex, rowIndex};
+                }
+            }
+        }
+        return new int[]{-1, -1};
+    }
+
     public Ship[] getShips() {
         return ships;
     }
 
-    public void placeShips(Ship[] ships){
+    public void placeShips(Ship[] ships) {
         this.ships = ships;
+
+        for (Ship ship: ships) {
+            int[] centralCoordinates = getCoordinatesOf(ship.getCentralPosition());
+            for (int i = 0; i < ship.getLength(); i++) {
+                if (ship.getOrientation() == Orientation.HORIZONTAL) {
+                    positions[centralCoordinates[0] + i][centralCoordinates[1]].setToOccupied();
+                }
+                if (ship.getOrientation() == Orientation.VERTICAL) {
+                    positions[centralCoordinates[0]][centralCoordinates[1] + i].setToOccupied();
+                }
+            }
+        }
     }
 
     public void placeShipsRandomly() {
@@ -107,11 +130,11 @@ public class Board {
         }
     }
 
-    public boolean isHitAt(int col, int row){;
+    public boolean isHitAt(int col, int row) {;
         return positions[col][row].isHit();
     }
 
-    public boolean isOccupied(int col, int row){
+    public boolean isOccupied(int col, int row) {
         return positions[col][row].isOccupied();
     }
 }
