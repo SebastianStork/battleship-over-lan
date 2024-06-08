@@ -1,15 +1,15 @@
 package de.lgsit.battleshipoverlan;
 
 public class Ship {
-    private int length;
-    private Orientation orientation;
     private Position centralPosition;
+    private Orientation orientation;
+    private int length;
     private int hits;
 
-    public Ship(int length, Orientation orientation, Position centralPosition){
-        this.length = length;
-        this.orientation = orientation;
+    public Ship(Position centralPosition, Orientation orientation, int length) {
         this.centralPosition = centralPosition;
+        this.orientation = orientation;
+        this.length = length;
     }
 
     public void hit(){
@@ -24,11 +24,11 @@ public class Ship {
         return centralPosition;
     }
 
-    public int getLength() {
-        return length;
-    }
-
     public Orientation getOrientation() {
         return orientation;
+    }
+
+    public int getLength() {
+        return length;
     }
 }

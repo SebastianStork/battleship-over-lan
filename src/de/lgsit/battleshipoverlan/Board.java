@@ -15,6 +15,10 @@ public class Board {
 
     }
 
+    public Position getPositionAt(int col, int row) {
+        return positions[col][row];
+    }
+
     public Ship[] getShips() {
         return ships;
     }
@@ -32,12 +36,12 @@ public class Board {
         for (int size : shipSizes) {
             boolean placed = false;
             while (!placed) {
-                int row = random.nextInt(10);
                 int col = random.nextInt(10);
+                int row = random.nextInt(10);
                 boolean horizontal = random.nextBoolean();
 
-                if (canPlaceShip(size, row, col, horizontal)) {
-                    generatedShips[index] = new Ship(size, horizontal ? Orientation.HORIZONTAL : Orientation.VERTICAL, new Position());
+                if (isLegalShipPlacement(col, row, horizontal, size)) {
+                    generatedShips[index] = new Ship(getPositionAt(col, row), horizontal ? Orientation.HORIZONTAL : Orientation.VERTICAL, size);
                     placed = true;
                     index++;
                 }
@@ -47,30 +51,29 @@ public class Board {
         placeShips(generatedShips);
     }
 
-    private boolean canPlaceShip(int size, int row, int col, boolean horizontal) {
+    private boolean isLegalShipPlacement(int col, int row, boolean horizontal, int size) {
+        if (!isInboundShipPlacement(col, row, horizontal, size)) {
+            return false;
+        }
+        return isFreeShipPlacement(col, row, horizontal, size);
+    }
+
+    private boolean isInboundShipPlacement(int col, int row, boolean horizontal, int size) {
         if (horizontal) {
-            if (col + size > 10) return false;
-            for (int i = 0; i < size; i++) {
-                if (positions[row][col + i].isOccupied()) return false;
-            }
-            return checkSurroundings(row, col, size, horizontal);
+            return col + size <= 10;
         } else {
-            if (row + size > 10) return false;
-            for (int i = 0; i < size; i++) {
-                if (positions[row + i][col].isOccupied()) return false;
-            }
-            return checkSurroundings(row, col, size, horizontal);
+            return row + size <= 10;
         }
     }
 
-    private boolean checkSurroundings(int row, int col, int size, boolean horizontal) {
+    private boolean isFreeShipPlacement(int col, int row, boolean horizontal, int size) {
         for (int i = 0; i < size; i++) {
-            for (int dr = -1; dr <= 1; dr++) {
-                for (int dc = -1; dc <= 1; dc++) {
-                    int newRow = row + (horizontal ? 0 : i) + dr;
+            for (int dc = -1; dc <= 1; dc++) {
+                for (int dr = -1; dr <= 1; dr++) {
                     int newCol = col + (horizontal ? i : 0) + dc;
-                    if (newRow >= 0 && newRow < 10 && newCol >= 0 && newCol < 10) {
-                        if (positions[newRow][newCol].isOccupied()) {
+                    int newRow = row + (horizontal ? 0 : i) + dr;
+                    if (newCol >= 0 && newCol < 10 && newRow >= 0 && newRow < 10) {
+                        if (positions[newCol][newRow].isOccupied()) {
                             return false;
                         }
                     }
@@ -84,7 +87,9 @@ public class Board {
         Position pos = positions[col][row];
         pos.setToHit();
 
-        if (!pos.isOccupied()) {return;}
+        if (!pos.isOccupied()) {
+            return;
+        }
 
         for (Ship ship : ships) {
             for (int i = 0; i <= ship.getLength(); i++) {
@@ -102,14 +107,11 @@ public class Board {
         }
     }
 
-    public boolean isHitAt(int col, int row){
-        Position pos = positions[col][row];
-
-        return pos.isHit();
+    public boolean isHitAt(int col, int row){;
+        return positions[col][row].isHit();
     }
 
     public boolean isOccupied(int col, int row){
-        Position pos = positions[col][row];
-        return pos.isOccupied();
+        return positions[col][row].isOccupied();
     }
 }
