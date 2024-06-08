@@ -85,7 +85,7 @@ public class Board {
         if (!pos.isOccupied()) {return;}
 
         for (Ship ship : ships) {
-            for (int i = 0; i <= ship.getLenght(); i++) {
+            for (int i = 0; i <= ship.getLength(); i++) {
                 if (ship.getOrientation() == 0) {
                     if (ship.getCentralPosition() == positions[col][row + i]) {
                         ship.hit();
