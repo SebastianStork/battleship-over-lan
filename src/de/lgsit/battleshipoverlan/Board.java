@@ -3,16 +3,16 @@ package de.lgsit.battleshipoverlan;
 import java.util.Random;
 
 public class Board {
-    private Position[][] positions;
+    private final Position[][] positions;
     private Ship[] ships;
 
     public Board(){
-        for(int i = 0; i<=10; i++){
-            for(int j = 0; j <=10; j++){
-                Position[][] positions = new Position[i][j];
+        positions = new Position[10][10];
+        for (int colIndex = 0; colIndex < 10; colIndex++) {
+            for (int rowIndex = 0; rowIndex < 10; rowIndex++) {
+                positions[colIndex][rowIndex] = new Position();
             }
         }
-
     }
 
     public Position getPositionAt(int col, int row) {
@@ -130,7 +130,7 @@ public class Board {
         }
     }
 
-    public boolean isHitAt(int col, int row) {;
+    public boolean isHitAt(int col, int row) {
         return positions[col][row].isHit();
     }
 
