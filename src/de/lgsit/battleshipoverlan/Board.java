@@ -18,6 +18,7 @@ public class Board {
     public Ship[] getShips() {
         return ships;
     }
+
     public void placeShips(Ship[] ships){
         this.ships = ships;
     }
@@ -36,7 +37,7 @@ public class Board {
                 boolean horizontal = random.nextBoolean();
 
                 if (canPlaceShip(size, row, col, horizontal)) {
-                    generatedShips[index] = new Ship(size, horizontal ? 0 : 1, new Position());
+                    generatedShips[index] = new Ship(size, horizontal ? Orientation.HORIZONTAL : Orientation.VERTICAL, new Position());
                     placed = true;
                     index++;
                 }
@@ -78,6 +79,7 @@ public class Board {
         }
         return true;
     }
+
     public void setShotAt(int col, int row) {
         Position pos = positions[col][row];
         pos.setToHit();
@@ -86,23 +88,26 @@ public class Board {
 
         for (Ship ship : ships) {
             for (int i = 0; i <= ship.getLength(); i++) {
-                if (ship.getOrientation() == 0) {
-                    if (ship.getCentralPosition() == positions[col][row + i]) {
+                if (ship.getOrientation() == Orientation.HORIZONTAL) {
+                    if (ship.getCentralPosition() == positions[col + i][row]) {
                         ship.hit();
                     }
-                } else {
-                    if (ship.getCentralPosition() == positions[col + i][row]) {
+                }
+                if (ship.getOrientation() == Orientation.VERTICAL) {
+                    if (ship.getCentralPosition() == positions[col][row + i]) {
                         ship.hit();
                     }
                 }
             }
         }
     }
+
     public boolean isHitAt(int col, int row){
         Position pos = positions[col][row];
 
         return pos.isHit();
     }
+
     public boolean isOccupied(int col, int row){
         Position pos = positions[col][row];
         return pos.isOccupied();
