@@ -34,19 +34,22 @@ public class Board {
         return ships;
     }
 
+    public void setShipOccupation(Ship ship) {
+        int[] centralCoordinates = getCoordinatesOf(ship.getCentralPosition());
+        for (int i = 0; i < ship.getLength(); i++) {
+            if (ship.getOrientation() == Orientation.HORIZONTAL) {
+                positions[centralCoordinates[0] + i][centralCoordinates[1]].setToOccupied();
+            }
+            if (ship.getOrientation() == Orientation.VERTICAL) {
+                positions[centralCoordinates[0]][centralCoordinates[1] + i].setToOccupied();
+            }
+        }
+    }
+
     public void placeShips(Ship[] ships) {
         this.ships = ships;
-
         for (Ship ship : ships) {
-            int[] centralCoordinates = getCoordinatesOf(ship.getCentralPosition());
-            for (int i = 0; i < ship.getLength(); i++) {
-                if (ship.getOrientation() == Orientation.HORIZONTAL) {
-                    positions[centralCoordinates[0] + i][centralCoordinates[1]].setToOccupied();
-                }
-                if (ship.getOrientation() == Orientation.VERTICAL) {
-                    positions[centralCoordinates[0]][centralCoordinates[1] + i].setToOccupied();
-                }
-            }
+            setShipOccupation(ship);
         }
     }
 
@@ -65,13 +68,14 @@ public class Board {
 
                 if (isLegalShipPlacement(col, row, horizontal, size)) {
                     generatedShips[index] = new Ship(getPositionAt(col, row), horizontal ? Orientation.HORIZONTAL : Orientation.VERTICAL, size);
+                    setShipOccupation(generatedShips[index]);
                     placed = true;
                     index++;
                 }
             }
         }
 
-        placeShips(generatedShips);
+        ships = generatedShips;
     }
 
     private boolean isLegalShipPlacement(int col, int row, boolean horizontal, int size) {
@@ -90,15 +94,14 @@ public class Board {
     }
 
     private boolean isFreeShipPlacement(int col, int row, boolean horizontal, int size) {
-        for (int i = 0; i < size; i++) {
-            for (int dc = -1; dc <= 1; dc++) {
-                for (int dr = -1; dr <= 1; dr++) {
-                    int newCol = col + (horizontal ? i : 0) + dc;
-                    int newRow = row + (horizontal ? 0 : i) + dr;
-                    if (newCol >= 0 && newCol < 10 && newRow >= 0 && newRow < 10) {
-                        if (positions[newCol][newRow].isOccupied()) {
-                            return false;
-                        }
+        for (int i = -1; i <= size; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int newCol = col + (horizontal ? i : 0) + (horizontal ? 0 : j);
+                int newRow = row + (horizontal ? 0 : i) + (horizontal ? j : 0);
+
+                if (newCol >= 0 && newCol < 10 && newRow >= 0 && newRow < 10) {
+                    if (positions[newCol][newRow].isOccupied()) {
+                        return false;
                     }
                 }
             }
