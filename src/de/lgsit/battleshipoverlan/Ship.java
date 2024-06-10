@@ -1,9 +1,9 @@
 package de.lgsit.battleshipoverlan;
 
 public class Ship {
-    private Position centralPosition;
-    private Orientation orientation;
-    private int length;
+    private final Position centralPosition;
+    private final Orientation orientation;
+    private final int length;
     private int hits;
 
     public Ship(Position centralPosition, Orientation orientation, int length) {
