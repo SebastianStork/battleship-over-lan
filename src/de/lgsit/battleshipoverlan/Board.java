@@ -106,6 +106,28 @@ public class Board {
         return true;
     }
 
+    public Ship getShipAt(int col, int row) {
+        for (Ship ship : ships) {
+            int[] shipCoordinates = getCoordinatesOf(ship.getCentralPosition());
+            int shipCol = shipCoordinates[0];
+            int shipRow = shipCoordinates[1];
+            int shipLength = ship.getLength();
+
+            if (ship.getOrientation() == Orientation.HORIZONTAL) {
+                if (shipCol >= col && shipCol < col + shipLength && shipRow == row) {
+                    return ship;
+                }
+            }
+            if (ship.getOrientation() == Orientation.VERTICAL) {
+                if (shipCol == col && shipRow >= row && shipRow < row + shipLength) {
+                    return ship;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public void setShotAt(int col, int row) {
         Position pos = positions[col][row];
         pos.setToHit();
@@ -114,20 +136,7 @@ public class Board {
             return;
         }
 
-        for (Ship ship : ships) {
-            for (int i = 0; i <= ship.getLength(); i++) {
-                if (ship.getOrientation() == Orientation.HORIZONTAL) {
-                    if (ship.getCentralPosition() == positions[col + i][row]) {
-                        ship.hit();
-                    }
-                }
-                if (ship.getOrientation() == Orientation.VERTICAL) {
-                    if (ship.getCentralPosition() == positions[col][row + i]) {
-                        ship.hit();
-                    }
-                }
-            }
-        }
+        getShipAt(col, row).hit();
     }
 
     public boolean isHitAt(int col, int row) {
