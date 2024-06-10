@@ -6,7 +6,7 @@ public class Board {
     private final Position[][] positions;
     private Ship[] ships;
 
-    public Board(){
+    public Board() {
         positions = new Position[10][10];
         for (int colIndex = 0; colIndex < 10; colIndex++) {
             for (int rowIndex = 0; rowIndex < 10; rowIndex++) {
@@ -37,7 +37,7 @@ public class Board {
     public void placeShips(Ship[] ships) {
         this.ships = ships;
 
-        for (Ship ship: ships) {
+        for (Ship ship : ships) {
             int[] centralCoordinates = getCoordinatesOf(ship.getCentralPosition());
             for (int i = 0; i < ship.getLength(); i++) {
                 if (ship.getOrientation() == Orientation.HORIZONTAL) {
@@ -134,7 +134,7 @@ public class Board {
         return positions[col][row].isHit();
     }
 
-    public boolean isOccupied(int col, int row) {
+    public boolean isOccupiedAt(int col, int row) {
         return positions[col][row].isOccupied();
     }
 }

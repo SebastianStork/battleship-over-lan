@@ -13,15 +13,15 @@ public class Position {
         return occupied;
     }
 
-    public void setToOccupied(){
+    public void setToOccupied() {
         occupied = true;
     }
 
-    public boolean isHit(){
+    public boolean isHit() {
         return hit;
     }
 
-    public void setToHit(){
+    public void setToHit() {
         hit = true;
     }
 }
