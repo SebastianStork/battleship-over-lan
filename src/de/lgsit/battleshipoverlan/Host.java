@@ -59,6 +59,9 @@ public class Host {
     }
 
     void exchangeFleets(boolean begin) throws IOException {
+        System.out.println("Generating fleet...");
+        player.getHomeBoard().placeShipsRandomly();
+        System.out.println("Exchanging fleet...");
         if (begin) {
             out.println(getFleetSignal());
             setEnemyFleet(in.readLine());
@@ -88,6 +91,9 @@ public class Host {
     }
 
     void exchangeShots(boolean begin) throws IOException {
+        System.out.println("Start!");
+        System.out.println();
+
         if (begin) {
             out.println(getShotSignal());
         }

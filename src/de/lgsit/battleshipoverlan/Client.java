@@ -19,6 +19,8 @@ public class Client extends Host {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
 
+            System.out.println("Connection established!");
+
             exchangeFleets(false);
             exchangeShots(false);
         } catch (UnknownHostException e) {

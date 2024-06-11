@@ -11,12 +11,16 @@ public class Server extends Host {
     public Server() {
         super();
 
+        System.out.println("Waiting for connection...");
+
         try (
                 ServerSocket serverSocket = new ServerSocket(4444);
                 Socket clientSocket = serverSocket.accept()
         ) {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+            System.out.println("Connection established!");
 
             exchangeFleets(true);
             exchangeShots(true);

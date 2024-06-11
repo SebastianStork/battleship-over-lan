@@ -20,7 +20,7 @@ public class Main {
         String line = stdin.nextLine();
 
         while (!Arrays.asList("h", "j", "q").contains(line)) {
-            System.out.printf("'%s' is invalid!\r\n", line);
+            System.out.println("'" + line + "' is invalid!");
             System.out.print("Choice [hjq]: ");
             line = stdin.nextLine();
         }
