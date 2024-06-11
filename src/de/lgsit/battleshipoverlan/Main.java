@@ -24,6 +24,7 @@ public class Main {
             System.out.print("Choice [hjq]: ");
             line = stdin.nextLine();
         }
+        System.out.println();
 
         switch (line) {
             case "h":

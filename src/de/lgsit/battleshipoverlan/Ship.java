@@ -12,14 +12,6 @@ public class Ship {
         this.length = length;
     }
 
-    public void hit() {
-        hits++;
-    }
-
-    public boolean isSunk() {
-        return hits >= length;
-    }
-
     public Position getCentralPosition() {
         return centralPosition;
     }
@@ -30,5 +22,13 @@ public class Ship {
 
     public int getLength() {
         return length;
+    }
+
+    public void hit() {
+        hits++;
+    }
+
+    public boolean isSunk() {
+        return hits >= length;
     }
 }

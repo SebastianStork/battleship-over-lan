@@ -35,12 +35,36 @@ public class Cli {
         System.out.println();
     }
 
-    private String convertCoordinatesToCode(int col, int row) {
-        return letters.charAt(col) + Integer.toString(row + 1);
+    public void announceRepeatShot() {
+        System.out.println("This position has already been shot at! Please choose a different position.");
+    }
+
+    public void announceSunkShip() {
+        System.out.println("The ship has sunk!");
+        System.out.println();
     }
 
     public void announceEnemyShot(int col, int row) {
         System.out.println("Your enemy shot at " + convertCoordinatesToCode(col, row) + ".");
+    }
+
+    private String convertCoordinatesToCode(int col, int row) {
+        return letters.charAt(col) + Integer.toString(row + 1);
+    }
+
+    public int[] getCoordinates() {
+        System.out.print("Choice [A-J][1-10]: ");
+        String code = stdin.nextLine();
+        int[] coordinates = convertCodeToCoordinates(code);
+
+        while (!isLegalCoordinates(coordinates[0], coordinates[1])) {
+            System.out.println("'" + code + "' is invalid!");
+            System.out.print("Choice [A-J][1-10]: ");
+            code = stdin.nextLine();
+            coordinates = convertCodeToCoordinates(code);
+        }
+
+        return coordinates;
     }
 
     private int[] convertCodeToCoordinates(String code) {
@@ -62,41 +86,13 @@ public class Cli {
         return (col >= 0 && col < 10 && row >= 0 && row < 10);
     }
 
-    public int[] getCoordinates() {
-        System.out.print("Choice [A-J][1-10]: ");
-        String code = stdin.nextLine();
-        int[] coordinates = convertCodeToCoordinates(code);
-
-        while (!isLegalCoordinates(coordinates[0], coordinates[1])) {
-            System.out.println("'" + code + "' is invalid!");
-            System.out.print("Choice [A-J][1-10]: ");
-            code = stdin.nextLine();
-            coordinates = convertCodeToCoordinates(code);
+    public void printBoards(Board enemyBoard, Board homeBoard) {
+        String[] printableEnemyBoard = getPrintableBoard(enemyBoard, false);
+        String[] printableHomeBoard = getPrintableBoard(homeBoard, true);
+        for (int i = 0; i < printableEnemyBoard.length; i++) {
+            System.out.println(printableEnemyBoard[i] + "          " + printableHomeBoard[i]);
         }
-
-        return coordinates;
-    }
-
-    public void announceRepeatShot() {
-        System.out.println("This position has already been shot at! Please choose a different position.");
-    }
-
-    public void announceSunkShip() {
-        System.out.println("The ship has sunk!");
         System.out.println();
-    }
-
-    private String getPositionSymbol(boolean isHit, boolean isOccupied, boolean isHome) {
-        if (isHit) {
-            if (isOccupied) {
-                return " X ";
-            }
-            return " ~ ";
-        }
-        if (isOccupied && isHome) {
-            return " □ ";
-        }
-        return "   ";
     }
 
     private String[] getPrintableBoard(Board board, boolean isHome) {
@@ -125,12 +121,16 @@ public class Cli {
         return printedBoard;
     }
 
-    public void printBoards(Board enemyBoard, Board homeBoard) {
-        String[] printableEnemyBoard = getPrintableBoard(enemyBoard, false);
-        String[] printableHomeBoard = getPrintableBoard(homeBoard, true);
-        for (int i = 0; i < printableEnemyBoard.length; i++) {
-            System.out.println(printableEnemyBoard[i] + "          " + printableHomeBoard[i]);
+    private String getPositionSymbol(boolean isHit, boolean isOccupied, boolean isHome) {
+        if (isHit) {
+            if (isOccupied) {
+                return " X ";
+            }
+            return " ~ ";
         }
-        System.out.println();
+        if (isOccupied && isHome) {
+            return " □ ";
+        }
+        return "   ";
     }
 }

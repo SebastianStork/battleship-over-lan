@@ -5,8 +5,8 @@ public class Position {
     private boolean hit;
 
     public Position() {
-        hit = false;
         occupied = false;
+        hit = false;
     }
 
     public boolean isOccupied() {

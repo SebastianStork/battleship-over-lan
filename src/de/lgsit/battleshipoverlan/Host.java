@@ -13,6 +13,20 @@ public class Host {
         player = new Player();
     }
 
+    void exchangeFleets(boolean begin) throws IOException {
+        System.out.println("Generating fleet...");
+        player.getHomeBoard().placeShipsRandomly();
+        System.out.println("Exchanging fleet...");
+        if (begin) {
+            out.println(getFleetSignal());
+            setEnemyFleet(in.readLine());
+        }
+        else {
+            setEnemyFleet(in.readLine());
+            out.println(getFleetSignal());
+        }
+    }
+
     String getFleetSignal() {
         Board board = player.getHomeBoard();
         Ship[] ships = board.getShips();
@@ -58,17 +72,21 @@ public class Host {
         player.getEnemyBoard().placeShips(ships);
     }
 
-    void exchangeFleets(boolean begin) throws IOException {
-        System.out.println("Generating fleet...");
-        player.getHomeBoard().placeShipsRandomly();
-        System.out.println("Exchanging fleet...");
+    void exchangeShots(boolean begin) throws IOException {
+        System.out.println("Start!");
+        System.out.println();
+
         if (begin) {
-            out.println(getFleetSignal());
-            setEnemyFleet(in.readLine());
+            out.println(getShotSignal());
         }
-        else {
-            setEnemyFleet(in.readLine());
-            out.println(getFleetSignal());
+
+        player.getCli().announceEnemyTurn();
+        String inputSignal;
+        while ((inputSignal = in.readLine()) != null) {
+            setEnemyShot(inputSignal);
+            out.println(getShotSignal());
+
+            player.getCli().announceEnemyTurn();
         }
     }
 
@@ -88,23 +106,5 @@ public class Host {
         int row = Integer.parseInt(coordinates[1]);
 
         player.setEnemyShot(col, row);
-    }
-
-    void exchangeShots(boolean begin) throws IOException {
-        System.out.println("Start!");
-        System.out.println();
-
-        if (begin) {
-            out.println(getShotSignal());
-        }
-
-        player.getCli().announceEnemyTurn();
-        String inputSignal;
-        while ((inputSignal = in.readLine()) != null) {
-            setEnemyShot(inputSignal);
-            out.println(getShotSignal());
-
-            player.getCli().announceEnemyTurn();
-        }
     }
 }

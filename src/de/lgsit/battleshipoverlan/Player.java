@@ -30,20 +30,18 @@ public class Player {
         int[] coordinates = cli.getCoordinates();
         int col = coordinates[0];
         int row = coordinates[1];
-        Position shotPosition = enemyBoard.getPositionAt(col, row);
 
-        while (shotPosition.isHit()) {
+        while (enemyBoard.isHitAt(col, row)) {
             cli.announceRepeatShot();
 
             coordinates = cli.getCoordinates();
             col = coordinates[0];
             row = coordinates[1];
-            shotPosition = enemyBoard.getPositionAt(col, row);
         }
 
         enemyBoard.setShotAt(col, row);
 
-        if (shotPosition.isOccupied()) {
+        if (enemyBoard.isOccupiedAt(col, row)) {
             cli.announceHit();
             if (enemyBoard.getShipAt(col, row).isSunk()) {
                 cli.announceSunkShip();
@@ -59,7 +57,7 @@ public class Player {
         homeBoard.setShotAt(col, row);
 
         cli.announceEnemyShot(col, row);
-        if (homeBoard.getPositionAt(col, row).isOccupied()) {
+        if (homeBoard.isOccupiedAt(col, row)) {
             cli.announceHit();
             if (homeBoard.getShipAt(col, row).isSunk()) {
                 cli.announceSunkShip();
