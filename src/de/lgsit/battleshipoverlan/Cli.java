@@ -89,12 +89,12 @@ public class Cli {
     private String getPositionSymbol(boolean isHit, boolean isOccupied, boolean isHome) {
         if (isHit) {
             if (isOccupied) {
-                return " * ";
+                return " X ";
             }
             return " ~ ";
         }
         if (isOccupied && isHome) {
-            return " O ";
+            return " □ ";
         }
         return "   ";
     }
