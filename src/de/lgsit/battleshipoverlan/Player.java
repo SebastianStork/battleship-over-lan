@@ -54,8 +54,6 @@ public class Player {
             cli.announceMiss();
         }
 
-        cli.announceEnemyTurn();
-
         return new int[]{col, row};
     }
 

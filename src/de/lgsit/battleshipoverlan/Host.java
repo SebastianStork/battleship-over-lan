@@ -1,6 +1,12 @@
 package de.lgsit.battleshipoverlan;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public class Host {
+    BufferedReader in;
+    PrintWriter out;
     Player player;
 
     public Host() {
@@ -52,6 +58,17 @@ public class Host {
         player.getEnemyBoard().placeShips(ships);
     }
 
+    void exchangeFleets(boolean begin) throws IOException {
+        if (begin) {
+            out.println(getFleetSignal());
+            setEnemyFleet(in.readLine());
+        }
+        else {
+            setEnemyFleet(in.readLine());
+            out.println(getFleetSignal());
+        }
+    }
+
     String getShotSignal() {
         int[] coordinates = player.getShot();
         return "SHOT:" + coordinates[0] + "," + coordinates[1];
@@ -68,5 +85,20 @@ public class Host {
         int row = Integer.parseInt(coordinates[1]);
 
         player.setEnemyShot(col, row);
+    }
+
+    void exchangeShots(boolean begin) throws IOException {
+        if (begin) {
+            out.println(getShotSignal());
+        }
+
+        player.getCli().announceEnemyTurn();
+        String inputSignal;
+        while ((inputSignal = in.readLine()) != null) {
+            setEnemyShot(inputSignal);
+            out.println(getShotSignal());
+
+            player.getCli().announceEnemyTurn();
+        }
     }
 }

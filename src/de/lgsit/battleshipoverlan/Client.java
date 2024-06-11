@@ -16,22 +16,18 @@ public class Client extends Host {
         try (
                 Socket clientSocket = new Socket(hostName, 4444)
         ) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-            setEnemyFleet(in.readLine());
-            out.println(getFleetSignal());
-
-            String inputSignal;
-            while ((inputSignal = in.readLine()) != null) {
-                setEnemyShot(inputSignal);
-                out.println(getShotSignal());
-            }
+            exchangeFleets(false);
+            exchangeShots(false);
         } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + hostName);
+            System.err.println("Don't know about host " + hostName + "!");
+            System.out.println(e.getMessage());
             System.exit(1);
         } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to " + hostName);
+            System.err.println("Couldn't get I/O for the connection to " + hostName + "!");
+            System.out.println(e.getMessage());
             System.exit(1);
         }
     }

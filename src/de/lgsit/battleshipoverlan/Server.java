@@ -1,11 +1,11 @@
 package de.lgsit.battleshipoverlan;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.IOException;
 
 public class Server extends Host {
     public Server() {
@@ -13,24 +13,17 @@ public class Server extends Host {
 
         try (
                 ServerSocket serverSocket = new ServerSocket(4444);
-                Socket clientSocket = serverSocket.accept();
+                Socket clientSocket = serverSocket.accept()
         ) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-            out.println(getFleetSignal());
-            setEnemyFleet(in.readLine());
-
-            out.println(getShotSignal());
-
-            String inputSignal;
-            while ((inputSignal = in.readLine()) != null) {
-                setEnemyShot(inputSignal);
-                out.println(getShotSignal());
-            }
+            exchangeFleets(true);
+            exchangeShots(true);
         } catch (IOException e) {
             System.out.println("Exception caught when listening for a connection!");
             System.out.println(e.getMessage());
+            System.exit(1);
         }
     }
 }
