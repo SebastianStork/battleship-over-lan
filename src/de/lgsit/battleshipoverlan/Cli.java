@@ -44,6 +44,14 @@ public class Cli {
         System.out.println();
     }
 
+    public void announceWinner(boolean isEnemy) {
+        if (isEnemy) {
+            System.out.println("Your enemy is the winner!");
+        } else {
+            System.out.println("You are the winner!");
+        }
+    }
+
     public void announceEnemyShot(int col, int row) {
         System.out.println("Your enemy shot at " + convertCoordinatesToCode(col, row) + ".");
     }

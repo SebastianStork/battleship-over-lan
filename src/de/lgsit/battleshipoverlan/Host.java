@@ -84,7 +84,9 @@ public class Host {
         String inputSignal;
         while ((inputSignal = in.readLine()) != null) {
             setEnemyShot(inputSignal);
+            player.checkForWin();
             out.println(getShotSignal());
+            player.checkForWin();
 
             player.getCli().announceEnemyTurn();
         }

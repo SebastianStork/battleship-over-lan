@@ -66,4 +66,30 @@ public class Player {
             cli.announceMiss();
         }
     }
+
+    public void checkForWin() {
+        boolean win = true;
+        for (Ship ship : enemyBoard.getShips()) {
+            if (!ship.isSunk()) {
+                win = false;
+                break;
+            }
+        }
+        if (win) {
+            cli.announceWinner(true);
+            System.exit(0);
+        }
+
+        win = true;
+        for (Ship ship : homeBoard.getShips()) {
+            if (!ship.isSunk()) {
+                win = false;
+                break;
+            }
+        }
+        if (win) {
+            cli.announceWinner(false);
+            System.exit(0);
+        }
+    }
 }
