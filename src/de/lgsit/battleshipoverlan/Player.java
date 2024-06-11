@@ -9,5 +9,7 @@ public class Player {
         homeBoard = new Board();
         enemyBoard = new Board();
         cli = new Cli();
+
+        homeBoard.placeShipsRandomly();
     }
 }

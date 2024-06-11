@@ -19,7 +19,7 @@ public class Board {
         return positions[col][row];
     }
 
-    private int[] getCoordinatesOf(Position position) {
+    public int[] getCoordinatesOf(Position position) {
         for (int colIndex = 0; colIndex < 10; colIndex++) {
             for (int rowIndex = 0; rowIndex < 10; rowIndex++) {
                 if (positions[colIndex][rowIndex] == position) {
