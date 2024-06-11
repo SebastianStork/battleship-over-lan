@@ -12,4 +12,16 @@ public class Player {
 
         homeBoard.placeShipsRandomly();
     }
+
+    public Board getHomeBoard() {
+        return homeBoard;
+    }
+
+    public Board getEnemyBoard() {
+        return enemyBoard;
+    }
+
+    public Cli getCli() {
+        return cli;
+    }
 }
