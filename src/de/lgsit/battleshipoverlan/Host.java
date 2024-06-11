@@ -51,4 +51,22 @@ public class Host {
 
         player.getEnemyBoard().placeShips(ships);
     }
+
+    String getShotSignal() {
+        int[] coordinates = player.getShot();
+        return "SHOT:" + coordinates[0] + "," + coordinates[1];
+    }
+
+    void setEnemyShot(String shotSignal) {
+        if (!shotSignal.startsWith("SHOT:")) {
+            throw new RuntimeException("Error: invalid signal!");
+        }
+        shotSignal = shotSignal.replaceFirst("SHOT:", "");
+
+        String[] coordinates = shotSignal.split(",");
+        int col = Integer.parseInt(coordinates[0]);
+        int row = Integer.parseInt(coordinates[1]);
+
+        player.setEnemyShot(col, row);
+    }
 }
