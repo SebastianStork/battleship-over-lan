@@ -26,6 +26,7 @@ public class Player {
     }
 
     public int[] getShot() {
+        cli.printBoards(enemyBoard, homeBoard);
         cli.announceOwnTurn();
 
         int[] coordinates = cli.getCoordinates();

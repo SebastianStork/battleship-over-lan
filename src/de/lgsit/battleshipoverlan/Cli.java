@@ -85,4 +85,52 @@ public class Cli {
         System.out.println("The ship has sunk!");
         System.out.println();
     }
+
+    private String getPositionSymbol(boolean isHit, boolean isOccupied, boolean isHome) {
+        if (isHit) {
+            if (isOccupied) {
+                return " * ";
+            }
+            return " ~ ";
+        }
+        if (isOccupied && isHome) {
+            return " O ";
+        }
+        return "   ";
+    }
+
+    private String[] getPrintableBoard(Board board, boolean isHome) {
+        String[] printedBoard = new String[13];
+
+        if (isHome) {
+            printedBoard[0] = "          Your own board         ";
+        } else {
+            printedBoard[0] = "        Your enemy's board       ";
+        }
+        printedBoard[1] = "";
+
+        printedBoard[2] = "   ";
+        for (int i = 0; i < 10; i++) {
+            printedBoard[2] += " " + convertCoordinatesToCode(i, 0).charAt(0) + " ";
+        }
+
+        for (int i = 0; i < 10; i++) {
+            printedBoard[i + 3] = " " + (i + 1) + " ";
+            for (int j = 0; j < 10; j++) {
+                printedBoard[i + 3] += getPositionSymbol(board.isHitAt(j, i), board.isOccupiedAt(j, i), isHome);
+            }
+        }
+        printedBoard[12] = printedBoard[12].substring(1);
+
+        return printedBoard;
+    }
+
+    public void printBoards(Board enemyBoard, Board homeBoard) {
+        String[] printableEnemyBoard = getPrintableBoard(enemyBoard, false);
+        String[] printableHomeBoard = getPrintableBoard(homeBoard, true);
+        for (int i = 0; i < printableEnemyBoard.length; i++) {
+            System.out.println(printableEnemyBoard[i] + "          " + printableHomeBoard[i]);
+        }
+        System.out.println();
+    }
 }
