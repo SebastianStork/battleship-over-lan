@@ -117,12 +117,12 @@ public class Board {
             int shipLength = ship.getLength();
 
             if (ship.getOrientation() == Orientation.HORIZONTAL) {
-                if (shipCol >= col && shipCol < col + shipLength && shipRow == row) {
+                if ((col >= shipCol) && (col < (shipCol + shipLength)) && (row == shipRow)) {
                     return ship;
                 }
             }
             if (ship.getOrientation() == Orientation.VERTICAL) {
-                if (shipCol == col && shipRow >= row && shipRow < row + shipLength) {
+                if ((col == shipCol) && (row >= shipRow) && (row < (shipRow + shipLength))) {
                     return ship;
                 }
             }
