@@ -70,7 +70,7 @@ public class Player {
             }
         }
         if (win) {
-            cli.announceWinner(true);
+            cli.announceWinner(false);
             System.exit(0);
         }
 
@@ -82,7 +82,7 @@ public class Player {
             }
         }
         if (win) {
-            cli.announceWinner(false);
+            cli.announceWinner(true);
             System.exit(0);
         }
     }
