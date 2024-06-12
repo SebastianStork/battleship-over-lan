@@ -25,8 +25,11 @@ public class Cli {
         System.out.println("It's your enemy's turn! Waiting...");
     }
 
-    public void announceHit() {
+    public void announceHit(boolean isSunk) {
         System.out.println("It's a hit!");
+        if (isSunk) {
+            System.out.println("The ship has sunk!");
+        }
         System.out.println();
     }
 
@@ -37,11 +40,6 @@ public class Cli {
 
     public void announceRepeatShot() {
         System.out.println("This position has already been shot at! Please choose a different position.");
-    }
-
-    public void announceSunkShip() {
-        System.out.println("The ship has sunk!");
-        System.out.println();
     }
 
     public void announceWinner(boolean isEnemy) {

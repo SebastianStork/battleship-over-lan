@@ -42,10 +42,7 @@ public class Player {
         enemyBoard.setShotAt(col, row);
 
         if (enemyBoard.isOccupiedAt(col, row)) {
-            cli.announceHit();
-            if (enemyBoard.getShipAt(col, row).isSunk()) {
-                cli.announceSunkShip();
-            }
+            cli.announceHit(enemyBoard.getShipAt(col, row).isSunk());
         } else {
             cli.announceMiss();
         }
@@ -58,10 +55,7 @@ public class Player {
 
         cli.announceEnemyShot(col, row);
         if (homeBoard.isOccupiedAt(col, row)) {
-            cli.announceHit();
-            if (homeBoard.getShipAt(col, row).isSunk()) {
-                cli.announceSunkShip();
-            }
+            cli.announceHit(homeBoard.getShipAt(col, row).isSunk());
         } else {
             cli.announceMiss();
         }
