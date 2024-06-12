@@ -76,6 +76,10 @@ public class Cli {
     }
 
     private int[] convertCodeToCoordinates(String code) {
+        if (code.length() < 2) {
+            return new int[]{-1, -1};
+        }
+
         String letter = String.valueOf(code.charAt(0));
         if (!letters.contains(letter)) {
             return new int[]{-1, -1};
