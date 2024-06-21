@@ -1,4 +1,5 @@
 .direnv/
+result/
 
 ### IntelliJ IDEA ###
 out/
